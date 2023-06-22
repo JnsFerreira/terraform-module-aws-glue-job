@@ -78,3 +78,28 @@ variable "security_configuration" {
   description = "The name of the Security Configuration to be associated with the job."
   default     = null
 }
+
+variable "command" {
+   type = object({
+     name             = optional(string, null)
+     script_location  = optional(string, null)
+     python_version   = number
+   })
+  description = "The command of the job."
+}
+
+variable "execution_property" {
+  type = object({
+    max_concurrent_runs = number
+  })
+  description = "(Optional) Execution property of the job. Defined below."
+  default     = null
+}
+
+variable "notification_property" {
+  type = object({
+    notify_delay_after = number
+  })
+  description = "(Optional) Notification property of the job."
+  default     = null
+}
