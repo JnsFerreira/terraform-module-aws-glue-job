@@ -103,3 +103,8 @@ variable "notification_property" {
   description = "(Optional) Notification property of the job."
   default     = null
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "(Optional) Key-value mapping of resource tags"
+}

@@ -32,5 +32,7 @@ resource "aws_glue_job" "this" {
     content {
       max_concurrent_runs = var.execution_property.max_concurrent_runs
     }
-  }  
+  }
+
+  tags = var.tags
 }
