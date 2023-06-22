@@ -20,7 +20,7 @@ resource "aws_glue_job" "this" {
   }
 
   dynamic "notification_property" {
-    count = var.notification_property != null ? 1 : 0
+    for_each = var.notification_property != null ? [true] : []
 
     content {
       notify_delay_after = var.notification_property.notify_delay_after
@@ -28,7 +28,7 @@ resource "aws_glue_job" "this" {
   }
 
   dynamic "execution_property" {
-    count = var.execution_property  != null ? 1 : 0
+    for_each = var.execution_property != null ? [true] : []
     content {
       max_concurrent_runs = var.execution_property.max_concurrent_runs
     }
