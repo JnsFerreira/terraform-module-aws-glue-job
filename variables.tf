@@ -20,9 +20,9 @@ variable "glue_version" {
   }
 }
 
-variable "role_arn" {
+variable "iam_policy" {
   type        = string
-  description = "The ARN of the IAM role associated with this job."
+  description = "The IAM policy with needed permissions to be attached to job role"
 }
 
 variable "worker_type" {

@@ -1,8 +1,45 @@
+locals {
+  role_arn = aws_iam_role.glue_job_role.arn
+}
+
+resource "aws_iam_policy" "glue_job_policy" {
+  name        = "${var.name}_policy"
+  path        = "/"
+  description = "IAM policy for ${var.name} glue job"
+  policy      = var.iam_policy
+}
+
+resource "aws_iam_role" "glue_job_role" {
+  name        = "${var.name}_role"
+  description = "IAM role for ${var.name} glue job"
+
+  assume_role_policy = <<EOF
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": {
+            "Service": "glue.amazonaws.com"
+          },
+          "Action": "sts:AssumeRole"
+        }
+      ]
+    }
+    EOF
+}
+
+resource "aws_iam_policy_attachment" "this" {
+  name       = "attach_glue_policy"
+  roles      = aws_iam_role.glue_job_role.arn
+  policy_arn = aws_iam_policy.glue_job_policy.arn
+}
+
 resource "aws_glue_job" "this" {
   name                      = var.name
   description               = var.description
   glue_version              = var.glue_version
-  role_arn                  = var.role_arn
+  role_arn                  = local.role_arn
   worker_type               = var.worker_type
   number_of_workers         = var.number_of_workers
   max_capacity              = var.max_capacity

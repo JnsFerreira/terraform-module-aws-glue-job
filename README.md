@@ -6,12 +6,16 @@ Terraform module to create AWS Glue Jobs
 ## Basic Usage
 
 ```terraform
+locals {
+  iam_policy = file("iac/iam/policies/policy.json")
+}
+
 module "glue_job" {
-  source = "https://github.com/JnsFerreira/terraform-module-aws-glue-job?ref=v1.0.0"
+  source = "git::https://github.com/JnsFerreira/terraform-module-aws-glue-job?ref=main"
 
   name        = "my-glue-job"
   description = "Glue Job that runs data_cleaning.py Python script"
-  role_arn    = local.role_arn
+  iam_policy  = local.iam_policy
 
   command = {
     script_location = "data_cleaning.py"
